@@ -345,7 +345,7 @@ public class Main {
                         System.err.println("User is not registered.");
                         System.exit(1);
                     }
-                    int timeout = 5;
+                    int timeout = 60;
                     if (ns.getInt("timeout") != null) {
                         timeout = ns.getInt("timeout");
                     }
@@ -355,7 +355,12 @@ public class Main {
                         timeout = 3600;
                     }
                     try {
-                        m.receiveMessages(timeout, returnOnTimeout, new ReceiveMessageHandler(m));
+
+                        for(int i=0; i< 10; i++){
+                            System.out.println("Numero di threads: " +Thread.activeCount());
+                            m.receiveMessages(timeout, returnOnTimeout, new ReceiveMessageHandler(m));
+                        }
+
                     } catch (IOException e) {
                         System.err.println("Error while receiving messages: " + e.getMessage());
                         System.exit(3);
@@ -403,7 +408,7 @@ public class Main {
                         if (ns.getString("group") != null) {
                             groupId = decodeGroupId(ns.getString("group"));
                         }
-                        byte[] newGroupId = m.sendUpdateGroupMessage(groupId, ns.getString("name"), ns.<String>getList("member"), ns.getString("avatar"), ns.getString("quit")!=null);
+                        byte[] newGroupId = m.sendUpdateGroupMessage(groupId, ns.getString("name"), ns.<String>getList("member"), ns.getString("avatar"));
                         if (groupId == null) {
                             System.out.println("Creating new group \"" + Base64.encodeBytes(newGroupId) + "\" …");
                         }
@@ -575,9 +580,6 @@ public class Main {
                 .help("Specify the new group name.");
         parserUpdateGroup.addArgument("-a", "--avatar")
                 .help("Specify a new group avatar image file");
-        parserUpdateGroup.addArgument("-q", "--quit")
-                .help("Quit from the group")
-                .action(Arguments.storeTrue());
         parserUpdateGroup.addArgument("-m", "--member")
                 .nargs("*")
                 .help("Specify one or more members to add to the group");
