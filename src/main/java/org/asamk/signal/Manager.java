@@ -69,11 +69,13 @@ class Manager implements Signal {
    // private final static String URL = "https://127.0.0.1:8080";
    // private final static TrustStore TRUST_STORE = new LoopbackTrustStore();
 
-    private final static String URL = "https://signal.sinesy.it:8080";
-    private final static TrustStore TRUST_STORE = new SinesyTrustStore();
+    //private final static String URL = "https://signal.sinesy.it:8080";
+    //private final static TrustStore TRUST_STORE = new SinesyTrustStore();
     //private final static String URL = "https://textsecure-service.whispersystems.org";
     //private final static TrustStore TRUST_STORE = new WhisperTrustStore();
-
+	private final static String URL = "https://146.148.10.143:8080";
+    private final static TrustStore TRUST_STORE = new ExampleTrustStore();
+    
     public final static String PROJECT_NAME = Manager.class.getPackage().getImplementationTitle();
     public final static String PROJECT_VERSION = Manager.class.getPackage().getImplementationVersion();
     private final static String USER_AGENT = PROJECT_NAME == null ? null : PROJECT_NAME + " " + PROJECT_VERSION;
@@ -484,7 +486,7 @@ class Manager implements Signal {
                     g.members.add(canonicalizeNumber(member));
                 } catch (InvalidNumberException e) {
                     System.err.println("Failed to add member \"" + member + "\" to group: " + e.getMessage());
-                    System.err.println("Aborting…");
+                    System.err.println("Aborting���");
                     System.exit(1);
                 }
             }
